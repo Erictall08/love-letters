@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eric & Disalyn - Forever Love</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden;
+            background: #0a0a0a;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Loading Screen */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a0a1a 0%, #2d1b2d 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease;
+        }
+
+        .heart-loader {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .heart-loader::before,
+        .heart-loader::after {
+            content: '';
+            width: 40px;
+            height: 64px;
+            background: #ff1744;
+            border-radius: 40px 40px 0 0;
+            position: absolute;
+            left: 40px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart-loader::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .loader-text {
+            color: #fff;
+            margin-top: 30px;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Music Control */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .music-control:hover {
+            background: rgba(255, 23, 68, 0.3);
+            transform: scale(1.1);
+        }
+
+        .music-control.playing {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 23, 68, 0.7); }
+            50% { box-shadow: 0 0 0 20px rgba(255, 23, 68, 0); }
+        }
+
+        /* Floating Hearts Background */
+        .hearts-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 23, 68, 0.3);
+            animation: floatUp 10s linear infinite;
+            font-size: 20px;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, #1a0a1a 0%, #4a1a4a 50%, #1a0a1a 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/></svg>');
+            background-size: 100px 100px;
+            animation: backgroundMove 20s linear infinite;
+        }
+
+        @keyframes backgroundMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(100px, 100px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            animation: fadeInUp 2s ease;
+        }
+
+        .names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 6rem;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255, 23, 68, 0.5);
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff1744, #ff6b6b, #ff1744);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .ampersand {
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.8);
+            display: block;
+            margin: -20px 0;
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 100px 20px;
+            background: linear-gradient(to bottom, #0a0a0a, #1a0a1a);
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            color: #ff1744;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .photo-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: perspective(1000px) rotateY(0deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .photo-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .photo-card:hover {
+            transform: perspective(1000px) rotateY(5deg) scale(1.05);
+            box-shadow: 0 30px 80px rgba(255, 23, 68, 0.3);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 30px;
+            color: #fff;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .photo-card:hover .photo-overlay {
+            transform: translateY(0);
+        }
+
+        .photo-caption {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: #ff6b6b;
+        }
+
+        /* Love Letter Section */
+        .letter-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #1a0a1a 0%, #2d1b2d 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .letter-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 60px;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .letter-container::before {
+            content: '❝';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 6rem;
+            color: rgba(255, 23, 68, 0.2);
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .letter-header h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: #ff1744;
+            margin-bottom: 10px;
+        }
+
+        .letter-header .date {
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+
+        .letter-content {
+            font-size: 1.3rem;
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: justify;
+            column-count: 1;
+        }
+
+        .letter-content p {
+            margin-bottom: 20px;
+            text-indent: 30px;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 40px;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            color: #ff6b6b;
+        }
+
+        .wax-seal {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ff1744 0%, #b71c1c 100%);
+            border-radius: 50%;
+            margin: 40px auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 5px 20px rgba(255, 23, 68, 0.4);
+            animation: sealPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes sealPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            padding: 100px 20px;
+            background: #0a0a0a;
+        }
+
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, #ff1744, transparent);
+        }
+
+        .timeline-item {
+            margin-bottom: 50px;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item:nth-child(even) {
+            text-align: right;
+            transform: translateX(50px);
+        }
+
+        .timeline-item:nth-child(even).visible {
+            transform: translateX(0);
+        }
+
+        .timeline-content {
+            background: rgba(255, 23, 68, 0.1);
+            border: 1px solid rgba(255, 23, 68, 0.3);
+            padding: 30px;
+            border-radius: 20px;
+            width: 45%;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            text-align: left;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #ff1744;
+            border-radius: 50%;
+            border: 4px solid #0a0a0a;
+            box-shadow: 0 0 20px rgba(255, 23, 68, 0.5);
+        }
+
+        .timeline-date {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .timeline-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 20px;
+            text-align: center;
+            background: linear-gradient(to top, #1a0a1a, #0a0a0a);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 20px;
+        }
+
+        .heart-divider {
+            font-size: 2rem;
+            color: #ff1744;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .names {
+                font-size: 3.5rem;
+            }
+            .photo-grid {
+                grid-template-columns: 1fr;
+            }
+            .letter-container {
+                padding: 30px;
+            }
+            .timeline::before {
+                left: 20px;
+            }
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                text-align: left;
+                padding-left: 50px;
+            }
+            .timeline-content {
+                width: 100%;
+            }
+            .timeline-dot {
+                left: 20px;
+            }
+        }
+
+        /* Particle Effects */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            animation: particleFloat 3s ease-out forwards;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="heart-loader"></div>
+        <div class="loader-text">Loading Love...</div>
+    </div>
+
+    <!-- Music Control -->
+    <div class="music-control" id="musicToggle" onclick="toggleMusic()">
+        <span id="musicIcon">🎵</span>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="bgMusic" loop>
+        <source src="Clean Bandit - Symphony (Lyrics) feat. Zara Larsson.mp3" type="audio/mpeg">
+        <!-- Backup: Romantic piano instrumental -->
+    </audio>
+
+    <!-- Floating Hearts Background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="names">Eric</h1>
+            <span class="ampersand">&</span>
+            <h1 class="names">Disalyn</h1>
+            <p class="subtitle">A Love Story Written in the Stars</p>
+        </div>
+        <div class="scroll-indicator" onclick="scrollToContent()">❤</div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section class="gallery-section" id="gallery">
+        <h2 class="section-title">My Beautiful Disalyn</h2>
+        <div class="photo-grid">
+            <div class="photo-card">
+                <img src="WhatsApp Image 2026-03-02 at 11.45.03 PM.jpeg2.jpeg" alt="Disalyn smiling">
+                <div class="photo-overlay">
+                    <p class="photo-caption">Your smile lights up my world</p>
+                </div>
+            </div>
+            <div class="photo-card">
+                <img src="WhatsApp Image 2026-03-02 at 11.45.04 PM.jpeg3.jpeg" alt="Disalyn with fireworks">
+                <div class="photo-overlay">
+                    <p class="photo-caption">You sparkle brighter than fireworks</p>
+                </div>
+            </div>
+            <div class="photo-card">
+                <img src="WhatsApp Image 2026-03-02 at 11.45.04 PM.jpeg4.jpeg" alt="Disalyn glowing">
+                <div class="photo-overlay">
+                    <p class="photo-caption">My heart beats only for you</p>
+                </div>
+            </div>
+            <div class="photo-card">
+                <img src="WhatsApp Image 2026-03-02 at 11.45.04 PM.jpeg6.jpeg" alt="Disalyn's wisdom">
+                <div class="photo-overlay">
+                    <p class="photo-caption">Your wisdom inspires me daily</p>
+                </div>
+            </div>
+            <div class="photo-card">
+                <img src="WhatsApp Image 2026-03-02 at 11.45.04 PM.jpeg7.jpeg" alt="Disalyn glowing">
+                <div class="photo-overlay">
+                    <p class="photo-caption">Every moment with you is magic</p>
+                </div>
+            </div>
+            <div class="photo-card">
+                <img src="WhatsApp Image 2026-03-02 at 11.45.05 PM.jpeg8.jpeg" alt="Disalyn elegant">
+                <div class="photo-overlay">
+                    <p class="photo-caption">Elegant, graceful, and mine</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Love Letter Section -->
+    <section class="letter-section">
+        <div class="letter-container">
+            <div class="letter-header">
+                <h2>My Dearest Disalyn</h2>
+                <p class="date">Forever & Always</p>
+            </div>
+            <div class="letter-content">
+                <p>From the moment our paths crossed, I knew my life would never be the same. You walked into my world like a gentle breeze on a summer evening, bringing with you a light so pure and warm that it chased away every shadow of loneliness I had ever known. Disalyn, you are not just my love—you are my sanctuary, my inspiration, and the very heartbeat that keeps me alive.</p>
+                
+                <p>Every day I spend with you feels like a page from a fairy tale, yet somehow more beautiful because it is real. Your laughter is the melody that plays in my mind from dawn until dusk, and your smile is the first thing I search for when I wake and the last thing I remember before sleep takes me. You have this extraordinary way of making ordinary moments feel extraordinary—whether we are sharing a quiet conversation or simply sitting in comfortable silence, your presence turns the mundane into magic.</p>
+                
+                <p>I am constantly in awe of your strength, your kindness, and the way you love so fiercely and unconditionally. You challenge me to be a better man, to reach higher, dream bigger, and love deeper than I ever thought possible. With you, I have discovered parts of myself I never knew existed—parts that are braver, gentler, and more capable of love than I ever imagined.</p>
+                
+                <p>Disalyn, I promise to cherish you not just for who you are today, but for who you are becoming. I promise to stand by you through every storm and celebrate with you under every rainbow. You are my today, my tomorrow, and all of my forevers. I love you more than words could ever capture, more than stars fill the sky, and more with each passing breath. You are my once-in-a-lifetime, my always, and my everything.</p>
+            </div>
+            <div class="signature">
+                Forever Yours,<br>
+                Eric
+            </div>
+            <div class="wax-seal">❤</div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section">
+        <h2 class="section-title">Our Journey</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">The Day We Met</div>
+                    <div class="timeline-text">When your eyes first met mine, time stood still and my heart found its home.</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">Our First Conversation</div>
+                    <div class="timeline-text">Words flowed like poetry, and I knew I was speaking with my soulmate.</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">Falling in Love</div>
+                    <div class="timeline-text">Not a moment, but a journey—falling deeper with every shared sunrise.</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">Forever Begins</div>
+                    <div class="timeline-text">Today, tomorrow, and every day after—my heart is yours, Disalyn.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">Created with endless love for Disalyn</p>
+        <div class="heart-divider">❤</div>
+        <p style="color: rgba(255,255,255,0.4); margin-top: 20px; font-size: 0.9rem;">Eric & Disalyn • Est. Forever</p>
+    </footer>
+
+    <script>
+        // Remove loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 1000);
+            }, 2000);
+        });
+
+        // Music Control
+        let isPlaying = false;
+        const music = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicIcon = document.getElementById('musicIcon');
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicToggle.classList.remove('playing');
+                musicIcon.textContent = '🔇';
+            } else {
+                music.play().catch(e => console.log('Audio play failed:', e));
+                musicToggle.classList.add('playing');
+                musicIcon.textContent = '🎵';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Create floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsContainer');
+            const heartSymbols = ['❤', '💖', '💕', '💗', '💝'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 13000);
+            }, 800);
+        }
+
+        createFloatingHearts();
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.querySelectorAll('.section-title, .photo-card, .timeline-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll
+        function scrollToContent() {
+            document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Create particles on click
+        document.addEventListener('click', (e) => {
+            createParticles(e.clientX, e.clientY);
+        });
+
+        function createParticles(x, y) {
+            const colors = ['#ff1744', '#ff6b6b', '#ffd700', '#ff69b4'];
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.width = '10px';
+                particle.style.height = '10px';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.borderRadius = '50%';
+                particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+                particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 3000);
+            }
+        }
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero-content');
+            parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+    </script>
+</body>
+</html>
